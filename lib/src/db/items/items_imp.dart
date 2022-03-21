@@ -5,43 +5,64 @@ import 'package:dart_grpc_server/dart_grpc_server.dart';
 class ItemService implements InterfaceItemService {
   @override
   Item? createItem(Item item) {
-    // TODO: implement createItem
-    throw UnimplementedError();
+    items.add({
+      'id': item.id,
+      'name': item.name,
+      'categoryId': item.categoryId,
+    });
+    return item;
   }
 
   @override
   Empty? deleteItem(int id) {
-    // TODO: implement deleteItem
-    throw UnimplementedError();
+    items.removeWhere((element) => element['id'] == id);
+    return Empty();
   }
 
   @override
   Item? getItemById(int id) {
-    // TODO: implement getItemById
-    throw UnimplementedError();
+    var item = Item();
+    var result = items.where((item) => item['id'] == id).toList();
+
+    if (result.isNotEmpty) {
+      item = helper.getItemFromMap(result.first);
+    }
+
+    return item;
   }
 
   @override
   Item? getItemByName(String name) {
-    // TODO: implement getItemByName
-    throw UnimplementedError();
+    var item = Item();
+    var result = items.where((element) => element['name'] == name).toList();
+    if (result.isNotEmpty) {
+      item = helper.getItemFromMap(result.first);
+    }
+    return item;
   }
 
   @override
   List<Item>? getItems() {
-    // TODO: implement getItems
-    throw UnimplementedError();
+    return items.map((item) => helper.getItemFromMap(item)).toList();
   }
 
   @override
   List<Item>? getItemsByCategory(int categoryId) {
-    // TODO: implement getItemsByCategory
-    throw UnimplementedError();
+    var result = <Item>[];
+    var jsonList =
+        items.where((element) => element['categoryId'] == categoryId).toList();
+    result = jsonList.map((item) => helper.getItemFromMap(item)).toList();
+    return result;
   }
 
   @override
   Item? updateItem(Item item) {
-    // TODO: implement updateItem
-    throw UnimplementedError();
+    try {
+      var itemIndex = items.indexWhere((element) => element['id'] == item.id);
+      categories[itemIndex]['name'] = item.name;
+    } catch (e) {
+      print('🔴 ERROR:: $e');
+    }
+    return item;
   }
 }

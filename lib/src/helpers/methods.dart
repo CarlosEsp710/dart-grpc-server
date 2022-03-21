@@ -11,17 +11,17 @@ class HelperMethods {
     return Category.fromJson('{"$_idTag": $_id, "$_nameTag": "$_name"}');
   }
 
-  Item getItemFromMap(Map<String, dynamic> item) {
+  Item getItemFromMap(Map item) {
     var _idTag = 1;
     var _nameTag = 2;
     var _categoryTag = 3;
 
     int _id = item['id'];
     String _name = item['name'];
-    int _category = item['category'];
+    int _categoryId = item['categoryId'];
 
     return Item.fromJson(
-        '{"$_idTag": $_id, "$_nameTag": "$_name", "$_categoryTag": $_category}');
+        '{"$_idTag": $_id, "$_nameTag": "$_name", "$_categoryTag": $_categoryId}');
   }
 }
 
